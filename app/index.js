@@ -1,22 +1,69 @@
 var USER_DATA = {
     name: 'Ammar Kalim',
-    username: 'ammarkalim',
+    username: 'ammark',
     image: 'https://avatars2.githubusercontent.com/u/687976?v=3&s=140'
 }
 
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var HelloWorld = React.createClass({
+var ProfilePic = React.createClass({
     render: function() {
-        console.log(this.props);
         return (
-            <div>Hello {this.props.name}</div>
+            <img src={this.props.imageUrl} style={{height: 100, width: 100}} />
         )
     }
 });
 
+var Link = React.createClass({
+    render: function () {
+        return (
+            <span
+                style={{color: 'blue', cursor: 'pointer'}}
+                onClick={this.changeURL}>
+                {this.props.children}
+            </span>
+        )
+    }
+})
+var ProfileLink = React.createClass({
+    changeURL : function () {
+        window.location.replace(this.props.href)
+    },
+    render: function() {
+        return (
+            <Link>
+                <a href={'http://www.github.com/' + this.props.username}>
+                    {this.props.username}
+                </a>
+            </Link>
+        )
+    }
+});
+
+var ProfileName = React.createClass({
+    render: function() {
+        return (
+            <div>
+                {this.props.name}
+            </div>
+        )
+    }
+});
+
+var Avatar = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <ProfilePic imageUrl={this.props.user.image} />
+                <ProfileName name={this.props.user.name} />
+                <ProfileLink username={this.props.user.username} />
+            </div>
+        )
+    }
+})
+
 ReactDOM.render(
-    <HelloWorld name="Ammar" anySortOfData={29} />,
+    <Avatar user={USER_DATA} />,
     document.getElementById('app')
 );
